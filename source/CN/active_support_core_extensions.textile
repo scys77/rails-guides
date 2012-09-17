@@ -1,74 +1,75 @@
 h2. Active Support Core Extensions
 
-Active Support is the Ruby on Rails component responsible for providing Ruby language extensions, utilities, and other transversal stuff.
+Active Support 是 Ruby on Rails 的组件，用来提供 Ruby 扩展、实用程序以及其它一些横向相关的东西。
 
-It offers a richer bottom-line at the language level, targeted both at the development of Rails applications, and at the development of Ruby on Rails itself.
+它提供了语言级别上的更丰富的基础功能，既适用于开发 Rails 应用程序，也适用于开发 Ruby on Rails 本身。
 
-By referring to this guide you will learn the extensions to the Ruby core classes and modules provided by Active Support.
+在这篇指南里你将学到的是 Active Support 对 Ruby 核心类和模块的扩展。
 
 endprologue.
 
-h3. How to Load Core Extensions
+h3. 如何加载核心扩展
 
-h4. Stand-Alone Active Support
+h4. 独立的 Active Support
 
-In order to have a near zero default footprint, Active Support does not load anything by default. It is broken in small pieces so that you may load just what you need, and also has some convenience entry points to load related extensions in one shot, even everything.
+为了占用的空间尽可能地小，Active Support 默认不加载任何东西。它不好用的时候也是一小块一小块的，所以你想用什么就尽管加载进来，它提供了很方便的入口点一次加载所有相关扩展，甚至是全部。
 
-Thus, after a simple require like:
+因此，如果简单地写了这样一个 require ：
 
 <ruby>
 require 'active_support'
+require 'active_support'
 </ruby>
 
-objects do not even respond to +blank?+. Let's see how to load its definition.
+对象还不能拥有 +blank?+ 方法。我们来看看如何加载这个方法的定义：
 
-h5. Cherry-picking a Definition
+h5. 选取一个方法定义
 
-The most lightweight way to get +blank?+ is to cherry-pick the file that defines it.
+获得 +blank?+ 的最轻量级方法是选取定义它的文件。
 
-For every single method defined as a core extension this guide has a note that says where such a method is defined. In the case of +blank?+ the note reads:
+本指南会对每一个提到的内核扩展方法都提示出它的定义位置。例如 +blank?+ 会有提示：
 
 NOTE: Defined in +active_support/core_ext/object/blank.rb+.
 
-That means that this single call is enough:
+这意味着下面这种简单调用就足够了：
 
 <ruby>
 require 'active_support/core_ext/object/blank'
 </ruby>
 
-Active Support has been carefully revised so that cherry-picking a file loads only strictly needed dependencies, if any.
+Active Support 已经被认真地修订为当选取一个文件时，只会加载确实存在相关依赖的东西。
 
-h5. Loading Grouped Core Extensions
+h5. 加载一组核心扩展
 
-The next level is to simply load all extensions to +Object+. As a rule of thumb, extensions to +SomeClass+ are available in one shot by loading +active_support/core_ext/some_class+.
+下一个级别是加载所有对 +Object+ 的扩展。从经验来讲，如果想一次性使对 +SomeClass+ 的扩展都可用，只需加载 +active_support/core_ext/some_class+。
 
-Thus, to load all extensions to +Object+ (including +blank?+):
+于是，加载所有对 +Object+ 的扩展（包括 +blank?+）的方法是：
 
 <ruby>
 require 'active_support/core_ext/object'
 </ruby>
 
-h5. Loading All Core Extensions
+h5. 加载所有核心扩展
 
-You may prefer just to load all core extensions, there is a file for that:
+你可能更想一次就把所有核心扩展都加载进来，确实有一个文件就是用来做这个的：
 
 <ruby>
 require 'active_support/core_ext'
 </ruby>
 
-h5. Loading All Active Support
+h5. 加载全部 Active Support
 
-And finally, if you want to have all Active Support available just issue:
+最后，如果你想让全部 Active Support 都可用，则：
 
 <ruby>
 require 'active_support/all'
 </ruby>
 
-That does not even put the entire Active Support in memory upfront indeed, some stuff is configured via +autoload+, so it is only loaded if used.
+它并不会把整个 Active Support 放入内存，即使接下来确实会用到，因为很多地方都被配置为 +autoload+，所以只有用到的时候才会被加载。
 
-h4. Active Support Within a Ruby on Rails Application
+h4. Ruby on Rails 应用程序里的 Active Support
 
-A Ruby on Rails application loads all Active Support unless +config.active_support.bare+ is true. In that case, the application will only load what the framework itself cherry-picks for its own needs, and can still cherry-pick itself at any granularity level, as explained in the previous section.
+一个 Ruby on Rails 应用程序会加载整个 Active Support，除非 +config.active_support.bare+ 为 true。如果设置为 true 了，应用程序只会加载框架自己按自身需要选取的东西，并且可以选取前面提到的各个粒度的。
 
 h3. Extensions to All Objects
 
